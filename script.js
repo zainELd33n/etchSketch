@@ -1,10 +1,33 @@
+const defaultSize = 16;
+
+let currentSize = defaultSize;
+
 const container = document.getElementById("container");
 const reset = document.getElementById("reset");
 
-function makeGrid(rows, cols) {
-  container.style.setProperty('--grid-rows', rows);
-  container.style.setProperty('--grid-cols', cols);
-  for (c = 0; c < (rows * cols); c++) {
+const sizeSlider = document.getElementById("sizeSlider");
+const sizeValue = document.getElementById("sizeValue");
+
+
+
+
+
+sizeSlider.onmousemove = (e) => updateSizeValue(e.target.value)
+function updateSizeValue(value) {
+  sizeValue.innerHTML = `${value} x ${value}`
+}
+
+
+
+
+
+
+
+
+function makeGrid(currentSize, currentSize) {
+  container.style.setProperty('--grid-rows', currentSize);
+  container.style.setProperty('--grid-cols', currentSize);
+  for (c = 0; c < (currentSize * currentSize); c++) {
     let cell = document.createElement("div");
     let grid = container.appendChild(cell);
     grid.className = `grid-item`;
