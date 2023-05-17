@@ -4,7 +4,6 @@ let currentSize = defaultSize;
 
 const container = document.getElementById("container");
 const reset = document.getElementById("reset");
-
 const sizeSlider = document.getElementById("sizeSlider");
 const sizeValue = document.getElementById("sizeValue");
 
@@ -12,21 +11,36 @@ const sizeValue = document.getElementById("sizeValue");
 
 
 
-sizeSlider.onmousemove = (e) => updateSizeValue(e.target.value)
+sizeSlider.onmousemove = (e) => updateSizeValue(e.target.value);
+sizeSlider.onchange = (e) => changeSize(e.target.value);
+
 function updateSizeValue(value) {
   sizeValue.innerHTML = `${value} x ${value}`
 }
 
+function changeSize(value) {
+  updateSize(value)
+  updateSizeValue(value)
+  reloadGrid()
+}
+
+function updateSize(value) {
+  currentSize = value;
+};
+
+function reloadGrid() {
+  clearGrid()
+  makeGrid(currentSize)
+}
+
+function clearGrid() {
+  container.innerHTML = ''
+}
 
 
-
-
-
-
-
-function makeGrid(currentSize, currentSize) {
-  container.style.setProperty('--grid-rows', currentSize);
-  container.style.setProperty('--grid-cols', currentSize);
+function makeGrid(currentSize) {
+  container.style.setProperty('grid-template-rows', `repeat(${currentSize}, 1fr)`);
+  container.style.setProperty('grid-template-columns', `repeat(${currentSize}, 1fr)`);
   for (c = 0; c < (currentSize * currentSize); c++) {
     let cell = document.createElement("div");
     let grid = container.appendChild(cell);
@@ -35,7 +49,6 @@ function makeGrid(currentSize, currentSize) {
   };
 };
 
-makeGrid(16, 16);
 
 container.addEventListener('mouseover', (e) => {
   let target = e.target;
@@ -48,3 +61,7 @@ container.addEventListener('mouseover', (e) => {
 reset.addEventListener('click', (e) => {
   location.reload();
 })
+
+window.onload = () => {
+  makeGrid(currentSize)
+}
